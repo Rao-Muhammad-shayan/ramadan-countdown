@@ -1,3 +1,4 @@
+localStorage.clear()
 const ramadanData ={
     "city": "Karachi",
     "country": "Pakistan",
@@ -34,13 +35,112 @@ const ramadanData ={
       { "day": 30, "date": "March 30, 2025", "sehri": "05:08 AM", "iftari": "06:43 PM" }
     ]
   }
-  console.log(moment(ramadanData.ramadan_2025[0].date, "MMMM D, YYYY").fromNow());
 
 
-  let sehriTime=ramadanData.ramadan_2025.map(d=>{
-    return d.sehri
-  })
- 
-  localStorage.setItem("sehri k Auqaat",JSON.stringify(sehriTime))
- let sehriShare=JSON.parse(localStorage.getItem("sehri k Auqaat"))
- console.log(sehriShare);
+
+
+  let array = [];
+  let nowDay = new Date().getTime();
+  let tillRamadan = new Date("1 March 2025").getTime();
+  let duration = tillRamadan - nowDay;
+  duration=0;
+  // ✅ Use "duration" instead of "0"
+  let weeksLeft = (duration / (1000 * 60 * 60 * 24 * 7)).toFixed(1);
+  array.push(weeksLeft + " week");
+  
+  let daysLeft = Math.floor(duration / (1000 * 60 * 60 * 24));
+  array.push(daysLeft + " d");
+  
+  let hoursLeft = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  array.push(hoursLeft + " hr");
+  
+  let minLeft = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+  array.push(minLeft + " min");
+  
+  let secLeft = Math.floor((duration % (1000 * 60)) / 1000);
+  array.push(secLeft + " sec");
+  
+
+  window.addEventListener("DOMContentLoaded", function () {
+    let containerCountdown = document.getElementById("ramadan-before");
+  
+    if (!containerCountdown) {
+      console.error("Element with ID 'ramadan-before' not found!");
+      return;
+    }
+  
+    array.forEach((time, i) => {
+      let div = document.createElement("div");
+      div.setAttribute("class", "col-2 hj text-warning px-4");
+      div.setAttribute("style", "padding: 4rem 1.3rem;");
+      div.setAttribute("id", `countdown-${i}`);
+  
+      div.innerHTML = `<h4>${time}</h4>`;
+  
+      containerCountdown.appendChild(div);
+    });
+  
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].startsWith("0 ")) {
+        document.getElementById(`countdown-${i}`).innerHTML = `<h4>0 ${array[i].split(" ")[1]}</h4>`;
+      }
+    }
+  
+    if (array.every(value => parseInt(value) === 0)) {
+      let brElement = document.getElementById("br");
+      let arElement = document.getElementById("ar");
+  
+      if (brElement) brElement.style.display = "none";
+      if (arElement) arElement.style.display = "block";
+  
+      console.log("Countdown is hidden because all values are 0.");
+  
+      let intervalCount = 0;
+
+
+   
+
+
+      let intervalID = setInterval(function () {
+        if (intervalCount >= ramadanData.ramadan_2025.length) {
+          clearInterval(intervalID); 
+          return;
+        }
+  
+        let div = document.createElement("div");
+        div.setAttribute("class", "col-12 bg-warning text-white d-flex justify-content-between");
+  
+        let dayData = ramadanData.ramadan_2025[intervalCount];
+        let storedArray = [];
+  
+        for (let key in dayData) {
+          storedArray.push(`${key}: ${dayData[key]}`);
+        }
+  
+        localStorage.setItem(`${intervalCount}Day`, JSON.stringify(storedArray)); // ✅ Store in localStorage correctly
+  
+        div.innerHTML = `<h4 style="color:#000;">${storedArray.join(" | ")}</h4>`; 
+        console.log(JSON.parse(localStorage.getItem(`${intervalCount}Day`))); 
+        document.getElementById("ar").appendChild(div); 
+        intervalCount++; 
+      }, 1000);
+
+
+     
+countess=0
+let dayCount=document.getElementById("cr")
+let div = document.createElement("div");
+if (intervalCount==1){
+  div.innerHTML = `<h4 style="color:#000;"></h4>`
+}
+
+
+let count=setInterval(function(){
+  
+  let div = document.createElement("div");
+  div.setAttribute("class", "col-12 bg-warning text-white d-flex justify-content-between");
+
+})
+
+    }
+  });
