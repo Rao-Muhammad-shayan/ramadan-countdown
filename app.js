@@ -43,7 +43,7 @@ const ramadanData ={
   let nowDay = new Date().getTime();
   let tillRamadan = new Date("1 March 2025").getTime();
   let duration = tillRamadan - nowDay;
-  duration=0;
+
   // ✅ Use "duration" instead of "0"
   let weeksLeft = (duration / (1000 * 60 * 60 * 24 * 7)).toFixed(1);
   array.push(weeksLeft + " week");
@@ -98,7 +98,7 @@ const ramadanData ={
       let intervalCount = 0;
 
 
-   
+   document.getElementById("another").style.display="block"
 
 
       let intervalID = setInterval(function () {
@@ -108,7 +108,7 @@ const ramadanData ={
         }
   
         let div = document.createElement("div");
-        div.setAttribute("class", "col-12 bg-warning text-white d-flex justify-content-between");
+        div.setAttribute("class", "col-12   d-flex justify-content-between");
   
         let dayData = ramadanData.ramadan_2025[intervalCount];
         let storedArray = [];
@@ -119,7 +119,7 @@ const ramadanData ={
   
         localStorage.setItem(`${intervalCount}Day`, JSON.stringify(storedArray)); // ✅ Store in localStorage correctly
   
-        div.innerHTML = `<h4 style="color:#000;">${storedArray.join(" | ")}</h4>`; 
+        div.innerHTML = `<h4 style="color: goldenrod;margin: 0 6rem; padding:0.5rem 0;">${storedArray.join(" | ")}</h4>`; 
         console.log(JSON.parse(localStorage.getItem(`${intervalCount}Day`))); 
         document.getElementById("ar").appendChild(div); 
         intervalCount++; 
@@ -127,20 +127,54 @@ const ramadanData ={
 
 
      
-countess=0
-let dayCount=document.getElementById("cr")
-let div = document.createElement("div");
-if (intervalCount==1){
-  div.innerHTML = `<h4 style="color:#000;"></h4>`
-}
-
-
-let count=setInterval(function(){
+      let counter = 1; 
+      let dayCount = document.getElementById("cr");
+      
+    let a=0
   
-  let div = document.createElement("div");
-  div.setAttribute("class", "col-12 bg-warning text-white d-flex justify-content-between");
+      
 
-})
 
+    let div = document.createElement("div");
+      div.setAttribute("class", "col-12   d-flex justify-content-between");
+   
+      setTimeout(() => {
+        let firstDayData = localStorage.getItem(`0Day`);
+        if (firstDayData) {
+            div.innerHTML = `<h4 style="background:transparent; padding:4rem 2rem:">${ JSON.parse(firstDayData).join(" | ")}</h4>`;     ;
+            dayCount.appendChild(div);
+        }
+    }, 1000);   
+      
+  
+      let intervalID1 = setInterval(function () {
+       
+          if (counter >= ramadanData.ramadan_2025.length) {
+              clearInterval(intervalID1); 
+              return;
+          }
+      
+        getDayData =  JSON.parse(localStorage.getItem(`${counter}Day`));
+        
+      
+          
+            div.innerHTML = `<h4 style="background:transparent; padding:4rem 2rem:">${getDayData.join(" | ")}</h4>`;     
+       
+      
+        
+          
+      
+         
+    
+          
+       
+      
+        
+          if (!dayCount.contains(div)) {
+              dayCount.appendChild(div);
+          }
+      
+          counter++; 
+      }, 1000*60*60);
     }
   });
