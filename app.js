@@ -46,7 +46,7 @@ const ramadanData ={
 
   // ✅ Use "duration" instead of "0"
   let weeksLeft = (duration / (1000 * 60 * 60 * 24 * 7)).toFixed(1);
-  array.push(weeksLeft + "w");
+  array.push(weeksLeft + " w");
   
   let daysLeft = Math.floor(duration / (1000 * 60 * 60 * 24));
   array.push(daysLeft + " d");
